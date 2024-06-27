@@ -1,0 +1,5 @@
+#!/bin/sh
+cd ~/Projects || exit
+SELECTED_DIR=$(find . -maxdepth 1 -type d | fzf)
+echo "$SELECTED_DIR"
+cd "$SELECTED_DIR" && tmux new-session -s "${SELECTED_DIR##*/}" -d && tmux switch -t "${SELECTED_DIR##*/}"
