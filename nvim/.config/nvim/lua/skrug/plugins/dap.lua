@@ -19,7 +19,7 @@ return {
 		vim.keymap.set("n", "<leader>ds", "<cmd>lua require('dap').step_into()<CR>")
 		vim.keymap.set("n", "<leader>do", "<cmd>lua require('dap').step_out()<CR>")
 		vim.keymap.set("n", "<leader>dr", "<cmd>lua require('dap').repl.toggle()<CR>")
-    vim.keymap.set("n", "<leader>du", "<cmd>lua require('dapui').toggle()<CR>")
+		vim.keymap.set("n", "<leader>du", "<cmd>lua require('dapui').toggle()<CR>")
 		dap.listeners.before.attach.dapui_config = function()
 			dapui.open()
 		end
@@ -53,7 +53,27 @@ return {
 		--       ["/var/www/html"] = "${workspaceFolder}",
 		--       },
 		--     },
-		--   },
-		-- }
+		-- dap.adapters.java = function(callback)
+		-- 	-- FIXME:
+		-- 	-- Here a function needs to trigger the `vscode.java.startDebugSession` LSP command
+		-- 	-- The response to the command must be the `port` used below
+		-- 	callback({
+		-- 		type = "server",
+		-- 		host = "127.0.0.1",
+		-- 		port = 5005,
+		-- 	})
+		-- end --   },
+		function attach_to_debug()
+			dap.configurations.java = {
+				{
+					type = "java",
+					request = "attach",
+					name = "Debug (Attach) - Remote",
+					hostName = "127.0.0.1",
+					port = "5005",
+				},
+			} -- }
+		end
+		vim.keymap.set("n", "<leader>da", ":lua attach_to_debug()<CR>")
 	end,
 }

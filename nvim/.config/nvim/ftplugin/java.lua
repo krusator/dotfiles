@@ -5,7 +5,8 @@ local status, jdtls = pcall(require, 'jdtls')
 local workspace_path = home .. '/.local/share/nvim/jdtls-workspace'
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(),':p:h:t')
 local workspace_dir = workspace_path .. '/' .. project_name
-local lombok_jar = home .. '/.local/share/nvim/lombok/lombok.jar'
+-- local lombok_jar = home .. '/.local/share/nvim/lombok/lombok.jar'
+local lombok_jar = jdtls_install_location .. '/lombok.jar'
 
 if not status then
   print('jdtls not found')
@@ -27,8 +28,8 @@ local config = {
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
     '-Dlog.protocol=true',
     '-Dlog.level=ALL',
-    '-Xmx1g',
     '-javaagent:' .. lombok_jar,
+    '-Xmx1g',
     '--add-modules=ALL-SYSTEM',
     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
