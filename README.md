@@ -3,7 +3,7 @@
 they can be managed on a machine using gnu stow with the following commands:
 
 ```sh
-stow -t ~ nvim zshrc tmux
+stow -t ~ nvim zshrc tmux kitty tools
 ```
 
 ## Requirements
