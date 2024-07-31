@@ -35,3 +35,6 @@ keymap.set("n", "<c-Right>", "<c-W>6>", { desc = "Tile pane to right" }) -- tile
 --keymap.set("n", "<s-left>", "<c-W>5<", { desc = "Tile pane to left" }) -- tile pane to left
 --keymap.set("n", "<s-up>", "<c-W>5+", { desc = "Tile pane to top" }) -- tile pane to top
 --keymap.set("n", "<s-down>", "<c-W>5-", { desc = "Tile pane to bottom" }) -- tile pane to bottom
+--
+keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+keymap.set("v", "K", ":m '<-2<CR>gv=gv")
