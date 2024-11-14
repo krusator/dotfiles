@@ -6,6 +6,8 @@ return {
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		"nvim-tree/nvim-web-devicons",
 		"nvim-telescope/telescope-live-grep-args.nvim",
+		"project_to_tmux",
+		"list_commands",
 	},
 	config = function()
 		local telescope = require("telescope")
@@ -52,119 +54,8 @@ return {
 		telescope.load_extension("fzf")
 		telescope.load_extension("live_grep_args")
 
-		-- Custom function to list directories and open tmux sessions
-		local function open_tmux_session(prompt_bufnr)
-			local selected_entry = action_state.get_selected_entry()
-			local dir = selected_entry[1]
-			actions.close(prompt_bufnr)
-
-			-- Extract the directory name for the session name
-			local session_name = dir:match("([^/]+)$")
-
-			-- Get the list of existing tmux sessions
-			local handle = io.popen('tmux list-sessions -F "#{session_name}"')
-			local result = handle:read("*a")
-			handle:close()
-
-			-- Check if a session for the directory already exists
-			if result:find(session_name) then
-				-- Switch to the existing session
-				os.execute("tmux switch-client -t " .. session_name)
-			else
-				-- Create a new session and switch to it
-				os.execute("tmux new-session -c " .. dir .. " -s " .. session_name .. " -d")
-				os.execute("tmux send-keys -t " .. session_name .. ' "nvim ." Enter')
-				os.execute("tmux switch-client -t " .. session_name)
-			end
-		end
-
-		local function find_directories()
-			builtin.find_files({
-				prompt_title = "Find Directories",
-				cwd = "/Users/krugs/projects",
-				attach_mappings = function(_, map)
-					map("i", "<CR>", open_tmux_session)
-					map("n", "<CR>", open_tmux_session)
-					return true
-				end,
-				find_command = { "find", "/Users/krugs/projects", "-type", "d", "-maxdepth", "1" },
-			})
-		end
-
-		-- Define your list of shell commands
-		local shell_commands = {
-			"ls -la",
-			"pwd",
-			"echo 'Hello, World!'",
-			"date",
-			"uname -a",
-			"./import_prod_db.sh -t jelmolich -l",
-      "./updating.sh all",
-      "ddev launch",
-      "ddev drush cr",
-		}
-
-		-- Function to execute a command asynchronously and show output in a floating window
-		-- Custom function to list and execute shell commands
-		-- Function to execute a command asynchronously and show output in a floating window
-		local function execute_command_async(prompt_bufnr)
-			local selected_entry = action_state.get_selected_entry()
-			local command = selected_entry[1]
-			actions.close(prompt_bufnr)
-
-			-- Create a buffer for the floating window
-			local buf = vim.api.nvim_create_buf(false, true)
-			local width = vim.o.columns
-			local height = vim.o.lines
-			local win_height = math.ceil(height * 0.8)
-			local win_width = math.ceil(width * 0.8)
-			local row = math.ceil((height - win_height) / 2)
-			local col = math.ceil((width - win_width) / 2)
-
-			local opts = {
-				style = "minimal",
-				relative = "editor",
-				width = win_width,
-				height = win_height,
-				row = row,
-				col = col,
-				border = "rounded",
-			}
-
-			local win = vim.api.nvim_open_win(buf, true, opts)
-
-			-- Set key mappings to close the floating window
-
-			-- Use termopen to handle ANSI color codes and automatic scrolling
-			vim.fn.termopen(command, {
-				on_exit = function()
-          vim.api.nvim_buf_set_keymap(buf, "n", "q", "<cmd>bd!<CR>", { noremap = true, silent = true })
-          vim.api.nvim_buf_set_keymap(buf, "n", "<Esc>", "<cmd>bd!<CR>", { noremap = true, silent = true })
-          vim.api.nvim_win_set_cursor(win, { vim.api.nvim_buf_line_count(buf), 0 })
-					vim.api.nvim_buf_set_lines(buf, -1, -1, false, { "Command finished." })
-          -- scroll to the bottom of the buffer
-				end,
-			})
-
-		end
-
-		local function list_shell_commands()
-			pickers
-				.new({}, {
-					prompt_title = "Shell Commands",
-					finder = finders.new_table({
-						results = shell_commands,
-					}),
-					sorter = sorters({}),
-					attach_mappings = function(_, map)
-						map("i", "<CR>", execute_command_async)
-						map("n", "<CR>", execute_command_async)
-						return true
-					end,
-				})
-				:find()
-		end
-
+		telescope.load_extension("project_to_tmux")
+		telescope.load_extension("list_commands")
 		-- Set keymaps
 		local keymap = vim.keymap -- for conciseness
 
@@ -179,7 +70,7 @@ return {
 		keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Fuzzy find git branches" })
 		keymap.set("n", "<leader><space>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 		keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-		keymap.set("n", "<leader>op", find_directories, { desc = "Find directories and open tmux session" })
-		keymap.set("n", "<leader>sc", list_shell_commands, { desc = "List and execute shell commands" })
+		keymap.set("n", "<leader>op", "<cmd>Telescope project_to_tmux<cr>", { desc = "Find directories and open tmux session" })
+		keymap.set("n", "<leader>sc", "<cmd>Telescope list_commands<cr>", { desc = "List and execute shell commands" })
 	end,
 }
