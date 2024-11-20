@@ -29,6 +29,16 @@ return {
 						["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
 					},
 				},
+				vimgrep_arguments = {
+					"rg",
+					"--color=never",
+					"--no-heading",
+					"--with-filename",
+					"--line-number",
+					"--column",
+					"--smart-case",
+					"--hidden", -- thats the new thing
+				},
 			},
 			pickers = {
 				find_files = {
@@ -36,10 +46,6 @@ return {
 					hidden = true,
 				},
 				live_grep = {
-					file_ignore_patterns = { ".git", "node_modules" },
-					additional_args = function(opts)
-						return { "--hidden" }
-					end,
 				},
 				buffers = {
 					mappings = {
@@ -70,7 +76,12 @@ return {
 		keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Fuzzy find git branches" })
 		keymap.set("n", "<leader><space>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 		keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-		keymap.set("n", "<leader>op", "<cmd>Telescope project_to_tmux<cr>", { desc = "Find directories and open tmux session" })
+		keymap.set(
+			"n",
+			"<leader>op",
+			"<cmd>Telescope project_to_tmux<cr>",
+			{ desc = "Find directories and open tmux session" }
+		)
 		keymap.set("n", "<leader>sc", "<cmd>Telescope list_commands<cr>", { desc = "List and execute shell commands" })
 	end,
 }
