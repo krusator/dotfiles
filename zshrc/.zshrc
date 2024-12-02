@@ -124,10 +124,10 @@ setopt hist_find_no_dups
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export PATH="/opt/homebrew/opt/php@8.2/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@8.2/sbin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/php@8.2/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/php@8.2/include"
+export PATH="/opt/homebrew/opt/php@8.3/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@8.3/sbin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/php@8.3/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/php@8.3/include"
 
 #function f() { find . -iname "*$1*" ${@:2} }
 #function r() { grep "$1" ${@:2} -R . }

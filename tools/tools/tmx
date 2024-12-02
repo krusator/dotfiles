@@ -1,6 +1,6 @@
 #!/bin/sh
 cd ~/Projects || exit
-SELECTED_DIR=$(find . -maxdepth 1 -type d | fzf)
+SELECTED_DIR=$(find ~/Projects ~/dotfiles ~/tools -maxdepth 1 -type d | fzf)
 echo "$SELECTED_DIR"
 cd "$SELECTED_DIR" || exit
 tmux new-session -s "${SELECTED_DIR##*/}" -d
