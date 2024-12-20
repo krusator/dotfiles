@@ -50,7 +50,6 @@ M.show_npm_scripts = function(opts)
 				actions.select_default:replace(function()
 					actions.close(prompt_bufnr)
 					local selection = action_state.get_selected_entry()
-					print(vim.inspect(selection.value.value))
 					-- Create a new not modifiable buffer with the vim api and insert the color code
 					-- local buf = vim.api.nvim_create_buf(false, true)
 					-- vim.api.nvim_buf_set_lines(buf, 0, -1, false, { selection.value[2] })

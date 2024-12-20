@@ -6,8 +6,6 @@ return {
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		"nvim-tree/nvim-web-devicons",
 		"nvim-telescope/telescope-live-grep-args.nvim",
-		"project_to_tmux",
-		"list_commands",
 	},
 	config = function()
 		local telescope = require("telescope")
@@ -60,8 +58,6 @@ return {
 		telescope.load_extension("fzf")
 		telescope.load_extension("live_grep_args")
 
-		telescope.load_extension("project_to_tmux")
-		telescope.load_extension("list_commands")
 		-- Set keymaps
 		local keymap = vim.keymap -- for conciseness
 
@@ -76,12 +72,5 @@ return {
 		keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Fuzzy find git branches" })
 		keymap.set("n", "<leader><space>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 		keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
-		keymap.set(
-			"n",
-			"<leader>op",
-			"<cmd>Telescope project_to_tmux<cr>",
-			{ desc = "Find directories and open tmux session" }
-		)
-		keymap.set("n", "<leader>sc", "<cmd>Telescope list_commands<cr>", { desc = "List and execute shell commands" })
 	end,
 }

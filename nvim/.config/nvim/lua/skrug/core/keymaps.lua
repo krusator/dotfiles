@@ -48,3 +48,8 @@ keymap.set('v', 'p', '"_dP', { desc = 'Keep last yanked when pasting', noremap =
 
 -- Buffers
 keymap.set('n', '<leader>bc', ':bd!<CR>', { desc = "close buffer", noremap = true, silent = true })
+
+-- execute lua file and code
+keymap.set('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = "Execute lua file", noremap = true, silent = true })
+keymap.set('n', '<leader>x', ':.lua<CR>', { desc = "Execute lua code", noremap = true, silent = true })
+keymap.set('v', '<leader>x', ':lua<CR>', { desc = "Execute lua code", noremap = true, silent = true })
