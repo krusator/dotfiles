@@ -55,6 +55,9 @@ vim.o.undofile = true
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
+-- make whitespaces visible
+vim.opt.list = true
+vim.opt.listchars = { tab = '▸ ', trail = '·', extends = '❯', precedes = '❮', nbsp = '␣', eol = '↲' }
 --
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
