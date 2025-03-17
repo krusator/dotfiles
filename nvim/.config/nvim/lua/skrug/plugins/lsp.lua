@@ -26,7 +26,6 @@ return {
 				automatic_installation = true,
 				-- list of servers for mason to install
 				ensure_installed = {
-					"tsserver",
 					"html",
 					"cssls",
 					"lua_ls",

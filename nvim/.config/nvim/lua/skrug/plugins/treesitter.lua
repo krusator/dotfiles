@@ -42,6 +42,9 @@ return {
         "vimdoc",
         "c",
         "java",
+        "php",
+        "phpdoc",
+        "regex",
       },
       incremental_selection = {
         enable = true,
