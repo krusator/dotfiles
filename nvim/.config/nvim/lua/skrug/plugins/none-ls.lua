@@ -11,7 +11,6 @@ return {
 				require("none-ls.diagnostics.eslint_d"),
 				null_ls.builtins.formatting.stylua,
 				null_ls.builtins.formatting.prettier,
-				null_ls.builtins.diagnostics.checkstyle
 				-- null_ls.source.filetypes({ "lua" }),
 				-- null_ls.source.command({ "ls", "-l" }),
 				-- null_ls.source.command({ "echo", "hello" }),
