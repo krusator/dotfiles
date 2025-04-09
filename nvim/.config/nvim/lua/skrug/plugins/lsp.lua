@@ -44,7 +44,8 @@ return {
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
+			-- "hrsh7th/cmp-nvim-lsp",
+			'saghen/blink.cmp',
 			{ "antosha417/nvim-lsp-file-operations", config = true },
 			{ "folke/neodev.nvim",                   opts = {} },
 		},
@@ -55,7 +56,7 @@ return {
 			local mason_lspconfig = require("mason-lspconfig")
 
 			-- import cmp-nvim-lsp plugin
-			local cmp_nvim_lsp = require("cmp_nvim_lsp")
+			-- local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 			local keymap = vim.keymap -- for conciseness
 
@@ -92,7 +93,7 @@ return {
 					keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
 					opts.desc = "Show line diagnostics"
-					keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
+					keymap.set("n", "<leader>dl", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
 					opts.desc = "Go to previous diagnostic"
 					keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
@@ -109,7 +110,11 @@ return {
 			})
 
 			-- used to enable autocompletion (assign to every lsp server config)
-			local capabilities = cmp_nvim_lsp.default_capabilities()
+			-- local capabilities = cmp_nvim_lsp.default_capabilities()
+			-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+		 --      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+			local original_capabilities = vim.lsp.protocol.make_client_capabilities()
+			local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities);
 
 			-- Change the Diagnostic symbols in the sign column (gutter)
 			-- (not in youtube nvim video)

@@ -71,6 +71,6 @@ return {
 		keymap.set("n", "<leader>fD", "<cmd>Telescope diagnostics<cr>", { desc = "Show all diagnostics" })
 		keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Fuzzy find git branches" })
 		keymap.set("n", "<leader><space>", builtin.buffers, { desc = "[ ] Find existing buffers" })
-		keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
+		keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", { desc = "Find string in dir -> \"my string\" in_here" })
 	end,
 }
