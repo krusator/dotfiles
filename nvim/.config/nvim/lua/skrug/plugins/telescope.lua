@@ -37,6 +37,10 @@ return {
 					"--smart-case",
 					"--hidden", -- thats the new thing
 				},
+				layout_config = {
+					width = 0.95,
+					preview_width = 0.3
+				},
 			},
 			pickers = {
 				find_files = {
@@ -53,6 +57,7 @@ return {
 					},
 				},
 			},
+			width = 0.95,
 		})
 
 		telescope.load_extension("fzf")
