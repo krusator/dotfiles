@@ -35,7 +35,7 @@ local config = {
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
 
     -- 💀
-    '-jar', jdtls_install_location .. '/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
+    '-jar', jdtls_install_location .. '/plugins/org.eclipse.equinox.launcher_1.7.0.v20250331-1702.jar',
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
          -- Must point to the                                                     Change this to
          -- eclipse.jdt.ls installation                                           the actual version
@@ -119,8 +119,11 @@ local config = {
   -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
   --
   -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
+  -- see https://github.com/microsoft/java-debug
   init_options = {
-    bundles = {}
+    bundles = {
+     home .. "/.local/share/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-0.53.2.jar",
+    }
   },
 }
 -- This starts a new client & server,

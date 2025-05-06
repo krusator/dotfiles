@@ -17,7 +17,7 @@ opt.wrap = false -- disable line wrapping
 -- search settings
 opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
-opt.hlsearch = false
+opt.hlsearch = true
 opt.incsearch = true
 
 -- cursor line
