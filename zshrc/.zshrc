@@ -1,3 +1,4 @@
+start=`date +%s.%N`
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -94,7 +95,7 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
-
+export EDITOR='nvim'
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -140,34 +141,6 @@ source /opt/homebrew/share/google-cloud-sdk/path.zsh.inc
 
 if [ /opt/homebrew/bin/kubectl ]; then source <(kubectl completion zsh); fi
 
-if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-    autoload -Uz compinit
-    compinit
-fi
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
-current_kube_project() {
-    echo $(kubectl config view -o=jsonpath='{.current-context}'|sed 's/gke_//g'|tr -s '_'|cut -d '_' -f 1)
-}
-current_kube_region() {
-    echo $(kubectl config view -o=jsonpath='{.current-context}'|sed 's/gke_//g'|tr -s '_'|cut -d '_' -f 2)
-}
-current_kube_cluster() {
-    echo $(kubectl config view -o=jsonpath='{.current-context}'|sed 's/gke_//g'|tr -s '_'|cut -d '_' -f 3)
-}
-current_kube_ns() {
-echo $(kubectl config view --minify | grep namespace: | sed 's/namespace: //g')
-}
-iterm2_print_user_vars() {
-  iterm2_set_user_var gitBranch $((git branch 2> /dev/null) | grep \* | cut -c3-)
-  iterm2_set_user_var kubeProject $(current_kube_project)
-  iterm2_set_user_var kubeRegion $(current_kube_region)
-  iterm2_set_user_var kubeCluster $(current_kube_cluster)
-  iterm2_set_user_var kubeNamespace $(current_kube_ns)
-}
-
 
 export TZ="Europe/Berlin"
 
@@ -197,3 +170,16 @@ export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 
 # own secrets as env vars - MUST NOT BE VERSIONED
 source ~/.local/krugs/local_credentials.sh
+
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+fi
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/krugs/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+end=`date +%s.%N`
+runtime=$( echo "$end - $start" | bc -l )
+echo "zshrc loading time $runtime"

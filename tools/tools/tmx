@@ -6,4 +6,4 @@ cd "$SELECTED_DIR" || exit
 tmux new-session -s "${SELECTED_DIR##*/}" -d
 tmux rename-window -t "${SELECTED_DIR##*/}" "${SELECTED_DIR##*/}"
 tmux send-keys -t "${SELECTED_DIR##*/}" "vi ." Enter
-tmux switch -t "${SELECTED_DIR##*/}"
+tmux switch -t "${SELECTED_DIR##*/}" || tmux attach

@@ -1,5 +1,5 @@
 theme = carbonfox
 font-family = JetBrains Mono
 
-fullscreen=true
-macos-non-native-fullscreen=visible-menu
+fullscreen = true
+macos-non-native-fullscreen = visible-menu

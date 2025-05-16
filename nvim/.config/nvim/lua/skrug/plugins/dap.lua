@@ -5,20 +5,27 @@ return {
 		"theHamsta/nvim-dap-virtual-text",
 		"rcarriga/nvim-dap-ui",
 		"nvim-telescope/telescope-dap.nvim",
+		"theHamsta/nvim-dap-virtual-text",
 	},
 	config = function()
 		local dap = require("dap")
 		local dapui = require("dapui")
+		local virtual_text = require("nvim-dap-virtual-text")
 		dapui.setup()
+		virtual_text.setup()
 		-- require("neodev").setup({
 		-- 	library = { plugins = { "nvim-dap-ui" }, types = true },
 		-- })
 
-		vim.keymap.set("n", "<leader>dc", "<cmd>lua require('dap').continue()<CR>")
 		vim.keymap.set("n", "<leader>db", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
+		vim.keymap.set("n", "<leader>dc", "<cmd>lua require('dap').continue()<CR>")
+		vim.keymap.set("n", "<F8>", "<cmd>lua require('dap').continue()<CR>")
 		vim.keymap.set("n", "<leader>dn", "<cmd>lua require('dap').step_over()<CR>")
+		vim.keymap.set("n", "<F5>", "<cmd>lua require('dap').step_over()<CR>")
 		vim.keymap.set("n", "<leader>ds", "<cmd>lua require('dap').step_into()<CR>")
+		vim.keymap.set("n", "<F6>", "<cmd>lua require('dap').step_into()<CR>")
 		vim.keymap.set("n", "<leader>do", "<cmd>lua require('dap').step_out()<CR>")
+		vim.keymap.set("n", "<F7>", "<cmd>lua require('dap').step_out()<CR>")
 		vim.keymap.set("n", "<leader>dr", "<cmd>lua require('dap').repl.toggle()<CR>")
 		vim.keymap.set("n", "<leader>du", "<cmd>lua require('dapui').toggle()<CR>")
 		dap.listeners.before.attach.dapui_config = function()

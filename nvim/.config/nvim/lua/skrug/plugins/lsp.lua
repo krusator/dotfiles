@@ -3,6 +3,7 @@ return {
 		"williamboman/mason.nvim",
 		dependencies = {
 			"williamboman/mason-lspconfig.nvim",
+			"jay-babu/mason-nvim-dap.nvim",
 		},
 		config = function()
 			-- import mason
@@ -38,6 +39,10 @@ return {
 					"helm_ls",
 				},
 			})
+			require("mason-nvim-dap").setup({
+				ensure_installed = { "java-debug-adapter", "java-test" },
+				automatic_installation = false,
+			})
 		end,
 	},
 	{
@@ -45,9 +50,9 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			-- "hrsh7th/cmp-nvim-lsp",
-			'saghen/blink.cmp',
+			"saghen/blink.cmp",
 			{ "antosha417/nvim-lsp-file-operations", config = true },
-			{ "folke/neodev.nvim",                   opts = {} },
+			{ "folke/neodev.nvim", opts = {} },
 		},
 		config = function()
 			local lspconfig = require("lspconfig")
@@ -112,9 +117,9 @@ return {
 			-- used to enable autocompletion (assign to every lsp server config)
 			-- local capabilities = cmp_nvim_lsp.default_capabilities()
 			-- local capabilities = vim.lsp.protocol.make_client_capabilities()
-		 --      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+			--      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 			local original_capabilities = vim.lsp.protocol.make_client_capabilities()
-			local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities);
+			local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
 
 			-- Change the Diagnostic symbols in the sign column (gutter)
 			-- (not in youtube nvim video)
@@ -158,6 +163,15 @@ return {
 								yamlls = {
 									path = "yaml-language-server",
 								},
+							},
+						},
+					})
+				end,
+				["phpactor"] = function()
+					lspconfig["phpactor"].setup({
+						settings = {
+							phpactor = {
+								["language_server_php_cs_fixer.enabled"] = true,
 							},
 						},
 					})
