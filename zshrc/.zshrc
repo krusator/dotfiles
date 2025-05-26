@@ -4,6 +4,8 @@ start=`date +%s.%N`
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+else
+  echo no p10k-instant-prompt-
 fi
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -13,7 +15,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -80,7 +82,11 @@ ZSH_THEME="robbyrussell"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-source $ZSH/oh-my-zsh.sh
+if [[ -f "$ZSH/oh-my-zsh.sh" ]]; then
+  source $ZSH/oh-my-zsh.sh
+else
+  echo oh-my-zsh not installed
+fi
 
 # User configuration
 
@@ -108,7 +114,11 @@ export EDITOR='nvim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
-source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+if [[ -f "/opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
+  source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+else
+  echo powerlevel10k theme not installed
+fi
 
 # History settings
 HISTFILE=~/.zsh_history
@@ -139,7 +149,10 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/google-cloud-sdk/completion.zsh.inc
 source /opt/homebrew/share/google-cloud-sdk/path.zsh.inc
 
-if [ /opt/homebrew/bin/kubectl ]; then source <(kubectl completion zsh); fi
+if [ /opt/homebrew/bin/kubectl ]; then source <(kubectl completion zsh);
+else
+  echo kubectl not installed
+fi
 
 
 export TZ="Europe/Berlin"
