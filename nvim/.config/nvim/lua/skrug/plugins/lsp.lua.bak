@@ -1,8 +1,8 @@
 return {
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
+			"mason-org/mason-lspconfig.nvim",
 			"jay-babu/mason-nvim-dap.nvim",
 		},
 		config = function()
@@ -52,7 +52,7 @@ return {
 			-- "hrsh7th/cmp-nvim-lsp",
 			"saghen/blink.cmp",
 			{ "antosha417/nvim-lsp-file-operations", config = true },
-			{ "folke/neodev.nvim", opts = {} },
+			-- { "folke/neodev.nvim", opts = {} },
 		},
 		config = function()
 			local lspconfig = require("lspconfig")

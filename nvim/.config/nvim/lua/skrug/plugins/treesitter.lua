@@ -45,6 +45,7 @@ return {
         "php",
         "phpdoc",
         "regex",
+        "twig",
       },
       incremental_selection = {
         enable = true,
