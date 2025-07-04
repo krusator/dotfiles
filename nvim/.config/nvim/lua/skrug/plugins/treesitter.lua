@@ -5,15 +5,13 @@ return {
   dependencies = {
     "windwp/nvim-ts-autotag",
   },
-  config = function()
-    -- import nvim-treesitter plugin
-    local treesitter = require("nvim-treesitter.configs")
-
-    -- configure treesitter
-    treesitter.setup({ -- enable syntax highlighting
+  opts = {
       highlight = {
         enable = true,
       },
+      auto_install = true,
+      sync_install = false,
+      ignore_install = {},
       -- enable indentation
       indent = { enable = true },
       -- enable autotagging (w/ nvim-ts-autotag plugin)
@@ -56,6 +54,6 @@ return {
           node_decremental = "<bs>",
         },
       },
-    })
-  end,
+  },
+  main = 'nvim-treesitter.configs',
 }

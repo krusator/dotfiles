@@ -69,5 +69,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = highlight_group,
   pattern = '*',
 })
--- mark inactive pane with different background
-vim.cmd('highlight NormalNC guibg=#2e2e2e guifg=#a0a0a0')
+-- -- mark inactive pane with different background
+-- vim.cmd('highlight NormalNC guibg=#2e2e2e guifg=#a0a0a0')
+

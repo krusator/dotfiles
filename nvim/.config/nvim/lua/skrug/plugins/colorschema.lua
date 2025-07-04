@@ -50,14 +50,25 @@ return {
 	lazy = false,
 	priority = 1000,
 	config = function()
-		vim.cmd([[colorscheme carbonfox]])
 		require("nightfox").setup({
-			theme = "carbonfox", -- Load "wave" theme when 'background' option is not set
-			background = { -- map the value of 'background' option to a theme
-				dark = "nightfox", -- try "dragon" !
-				light = "dayfox",
+			-- theme = "nightfox", -- Load "wave" theme when 'background' option is not set
+			-- theme = "carbonfox", -- Load "wave" theme when 'background' option is not set
+			-- background = {    -- map the value of 'background' option to a theme
+			-- 	dark = "carbonfox", -- try "dragon" !
+			-- 	light = "dayfox",
+			-- },
+			options = {
+				styles = {
+					comments = "italic",
+				},
+			},
+			palettes = {
+				all = {
+					comment = "#B6B09F",
+				},
 			},
 		})
+		vim.cmd("colorscheme carbonfox")
 	end,
 	-- config = function()
 	--   require("lualine").setup({
