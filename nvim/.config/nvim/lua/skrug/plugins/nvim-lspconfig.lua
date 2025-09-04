@@ -5,11 +5,11 @@ return {
 		-- Mason must be loaded before its dependents so we need to set it up here.
 		-- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
 		{ "mason-org/mason.nvim", opts = {} },
-		"mason-org/mason-lspconfig.nvim",
+		-- "mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 		-- Useful status updates for LSP.
-		{ "j-hui/fidget.nvim",    opts = {} },
+		{ "j-hui/fidget.nvim", opts = {} },
 
 		-- Allows extra capabilities provided by blink.cmp
 		"saghen/blink.cmp",
@@ -17,6 +17,7 @@ return {
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 	},
 	config = function()
+		local util = require("lspconfig.util")
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = true }),
 			callback = function(event)
@@ -66,11 +67,13 @@ return {
 
 				-- opts.desc = "Go to previous diagnostic"
 				-- keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-				map("[d", vim.diagnostic.goto_prev, "[P]revious [d]iagnostic")
+				-- map("[d", vim.diagnostic.goto_prev, "[P]revious [d]iagnostic")
+				map("<d", vim.diagnostic.goto_prev, "[P]revious [d]iagnostic")
 
 				-- opts.desc = "Go to next diagnostic"
 				-- keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-				map("]d", vim.diagnostic.goto_next, "[N]ext [d]iagnostic")
+				-- map("]d", vim.diagnostic.goto_next, "[N]ext [d]iagnostic")
+				map(">d", vim.diagnostic.goto_next, "[N]ext [d]iagnostic")
 
 				-- opts.desc = "Show documentation for what is under cursor"
 				-- keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
@@ -97,11 +100,8 @@ return {
 				-- When you move your cursor, the highlights will be cleared (the second autocommand).
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 				if
-						client
-						and client:supports_method(
-							vim.lsp.protocol.Methods.textDocument_documentHighlight,
-							event.buf
-						)
+					client
+					and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
 				then
 					local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -129,10 +129,7 @@ return {
 				-- code, if the language server you are using supports them
 				--
 				-- This may be unwanted, since they displace some of your code
-				if
-						client
-						and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf)
-				then
+				if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
 					map("<leader>th", function()
 						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 					end, "[T]oggle Inlay [H]ints")
@@ -177,100 +174,34 @@ return {
 		})
 		local original_capabilities = vim.lsp.protocol.make_client_capabilities()
 		local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
-		local servers = {
-			html = {},
-			cssls = {},
-			graphql = {},
-			gopls = {},
-			terraformls = {},
-			bashls = {},
-			jdtls = {},
-			-- clangd = {},
-			-- gopls = {},
-			-- pyright = {},
-			-- rust_analyzer = {},
-			-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-			--
-			-- Some languages (like typescript) have entire language plugins that can be useful:
-			--    https://github.com/pmizio/typescript-tools.nvim
-			--
-			-- But for many setups, the LSP (`ts_ls`) will work just fine
-			-- ts_ls = {},
-			--
-
-			lua_ls = {
-				-- cmd = { ... },
-				-- filetypes = { ... },
-				-- capabilities = {},
-				settings = {
-					Lua = {
-						completion = {
-							callSnippet = "Replace",
-						},
-						diagnostics = {
-							globals = { "vim" },
-						},
-						-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-						-- diagnostics = { disable = { 'missing-fields' } },
-					},
-				},
-			},
-			helm_ls = {
-				-- cmd = { ... },
-				-- filetypes = { ... },
-				-- capabilities = {},
-				settings = {
-					["helm-ls"] = {
-						yamlls = {
-							path = "yaml-language-server",
-						},
-					},
-				},
-			},
-			phpactor = {
-				-- cmd = { ... },
-				-- filetypes = { ... },
-				-- capabilities = {},
-				settings = {
-					phpactor = {
-						["language_server_php_cs_fixer.enabled"] = true,
-					},
-				},
-			},
-		}
-		-- Ensure the servers and tools above are installed
-		--
-		-- To check the current status of installed tools and/or manually install
-		-- other tools, you can run
-		--    :Mason
-		--
-		-- You can press `g?` for help in this menu.
-		--
-		-- `mason` had to be setup earlier: to configure its options see the
-		-- `dependencies` table for `nvim-lspconfig` above.
-		--
-		-- You can add other tools here that you want Mason to install
-		-- for you, so that they are available from within Neovim.
-		local ensure_installed = vim.tbl_keys(servers or {})
-		vim.list_extend(ensure_installed, {
-			"stylua", -- Used to format Lua code
+		vim.lsp.enable("jdtls")
+		vim.lsp.enable("lua_ls")
+		vim.lsp.enable("phpactor")
+		vim.lsp.config("jdtls", {
+			capabilities = capabilities,
 		})
-		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
-		require("mason-lspconfig").setup({
-			ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-			automatic_installation = false,
-			automatic_enable = true,
-			handlers = {
-				function(server_name)
-					local server = servers[server_name] or {}
-					-- This handles overriding only values explicitly passed
-					-- by the server configuration above. Useful when disabling
-					-- certain features of an LSP (for example, turning off formatting for ts_ls)
-					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-					require("lspconfig")[server_name].setup(server)
-				end,
+		vim.lsp.config("lua_ls", {
+			-- cmd = { ... },
+			-- filetypes = { ... },
+			capabilities = capabilities,
+			settings = {
+				Lua = {
+					completion = {
+						callSnippet = "Replace",
+					},
+					diagnostics = {
+						globals = { "vim" },
+					},
+					-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+					-- diagnostics = { disable = { 'missing-fields' } },
+				},
 			},
+		})
+		vim.lsp.config("phpactor", {
+			-- cmd = { ... },
+			-- filetypes = { ... },
+			root_dir = vim.fs.root(0, { ".ddev" }),
+			capabilities = capabilities,
 		})
 	end,
 }

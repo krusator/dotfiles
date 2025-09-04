@@ -51,7 +51,7 @@ local config = {
 
     -- 💀
     "-jar",
-    jdtls_install_location .. "/plugins/org.eclipse.equinox.launcher_1.7.0.v20250331-1702.jar",
+    jdtls_install_location .. "/plugins/org.eclipse.equinox.launcher_1.7.0.v20250519-0528.jar",
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
     -- Must point to the                                                     Change this to
     -- eclipse.jdt.ls installation                                           the actual version
@@ -148,7 +148,7 @@ local config = {
     bundles = bundles,
   },
 }
-print(vim.inspect(config.init_options.bundles))
+-- print(vim.inspect(config.init_options.bundles))
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 require("jdtls").start_or_attach(config)

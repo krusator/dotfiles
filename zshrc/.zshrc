@@ -137,8 +137,10 @@ setopt hist_find_no_dups
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 export PATH="/opt/homebrew/opt/php@8.3/bin:$PATH"
 export PATH="/opt/homebrew/opt/php@8.3/sbin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/php@8.3/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/php@8.3/include"
+# export LDFLAGS="-L/opt/homebrew/opt/php@8.3/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/php@8.3/include"
+
+export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
 
 export CLOUDSDK_PYTHON=python3.12
 #function f() { find . -iname "*$1*" ${@:2} }
@@ -169,20 +171,6 @@ export PATH="/Library/Java/JavaVirtualMachines/graalvm-community-openjdk-21/Cont
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(fzf --zsh)"
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-# WAY TO SLOW - must be rewritten!!!
-  # [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  # [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-function load_nvm_lazy() {
-  if [[ "$NVM_LOADED" != "false" ]]; then
-    [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-    [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-    export NVM_LOADED="true"
-  fi
-}
-# load_nvm_lazy &
 # Aliases
 alias vim="nvim"
 alias vi="nvim"

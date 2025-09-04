@@ -2,7 +2,7 @@ return {
 	"github/copilot.vim",
 	version = "1.47",
 	config = function()
-		vim.g.copilot_settings = { selectedCompletionModel = "gpt-4o-copilot" }
+		vim.g.copilot_settings = { selectedCompletionModel = "gpt-41-copilot" }
 		-- Block the normal Copilot suggestions
 		vim.api.nvim_create_augroup("github_copilot", { clear = true })
 		vim.api.nvim_create_autocmd({ "FileType", "BufUnload" }, {
