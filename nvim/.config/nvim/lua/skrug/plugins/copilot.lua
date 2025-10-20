@@ -1,6 +1,6 @@
 return {
 	"github/copilot.vim",
-	version = "1.47",
+	version = "1.55",
 	config = function()
 		vim.g.copilot_settings = { selectedCompletionModel = "gpt-41-copilot" }
 		-- Block the normal Copilot suggestions

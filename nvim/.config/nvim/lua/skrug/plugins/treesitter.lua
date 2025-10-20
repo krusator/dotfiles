@@ -45,6 +45,9 @@ return {
         "regex",
         "twig",
         "diff",
+        "gotmpl",
+        "helm",
+        "go"
       },
       incremental_selection = {
         enable = true,

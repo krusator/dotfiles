@@ -9,7 +9,7 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 		-- Useful status updates for LSP.
-		{ "j-hui/fidget.nvim", opts = {} },
+		{ "j-hui/fidget.nvim",    opts = {} },
 
 		-- Allows extra capabilities provided by blink.cmp
 		"saghen/blink.cmp",
@@ -100,8 +100,8 @@ return {
 				-- When you move your cursor, the highlights will be cleared (the second autocommand).
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 				if
-					client
-					and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
+						client
+						and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
 				then
 					local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -203,5 +203,51 @@ return {
 			root_dir = vim.fs.root(0, { ".ddev" }),
 			capabilities = capabilities,
 		})
+		vim.lsp.enable("bashls")
+		vim.lsp.config("bashls", {
+			-- cmd = { ... },
+			-- filetypes = { ... },
+			capabilities = capabilities,
+			cmd = { "bash-language-server", "start" },
+			filetypes = { "bash", "sh" },
+		})
+		vim.lsp.enable("twiggy_language_server")
+		vim.lsp.config("twiggy_language_server", {
+			capabilities = capabilities,
+			root_dir = vim.fs.root(0, { ".ddev" }),
+		})
+		-- vim.lsp.enable("docker-language-server")
+		vim.lsp.enable("gopls")
+		vim.lsp.config("gopls", {
+			capabilities = capabilities,
+			settings = {
+				gopls = {
+					analyses = {
+						unusedparams = true,
+					},
+					staticcheck = true,
+					gofumpt = true,
+				},
+			},
+		})
+		vim.lsp.enable("ts_ls")
+		-- vim.lsp.config("docker-language-server", {
+		-- 	capabilities = capabilities,
+		-- 	cmd = { "docker-language-server", "start", "--stdio" },
+		-- 	filetypes = { "dockerfile", "yaml.docker-compose" },
+		-- 	root_markers = {
+		-- 		"Dockerfile",
+		-- 		"docker-compose.yaml",
+		-- 		"docker-compose.yml",
+		-- 		"compose.yaml",
+		-- 		"compose.yml",
+		-- 		"docker-bake.json",
+		-- 		"docker-bake.hcl",
+		-- 		"docker-bake.override.json",
+		-- 		"docker-bake.override.hcl",
+		-- 	},
+		-- })
+		-- vim.lsp.enable('GitHub Copilot')
+		-- vim.lsp.config('GitHub Copilot', {})
 	end,
 }

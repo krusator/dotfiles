@@ -72,3 +72,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- -- mark inactive pane with different background
 -- vim.cmd('highlight NormalNC guibg=#2e2e2e guifg=#a0a0a0')
 
+vim.filetype.add({
+  extension = {
+    gotmpl = 'gotmpl',
+  },
+  pattern = {
+    [".*/templates/.*%.tpl"] = "helm",
+    [".*/templates/.*%.ya?ml"] = "helm",
+    ["helmfile.*%.ya?ml"] = "helm",
+  },
+})

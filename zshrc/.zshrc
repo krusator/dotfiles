@@ -1,3 +1,10 @@
+function track_time {
+  local type=$1
+  end=`date +%s.%N`
+  runtime=$( echo "$end - $start" | bc -l )
+  echo "zshrc loading time for $type: $runtime"
+}
+start_init=`date +%s.%N`
 start=`date +%s.%N`
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -7,11 +14,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 else
   echo no p10k-instant-prompt-
 fi
-
+track_time "pk10"
+start=`date +%s.%N`
 eval "$(/opt/homebrew/bin/brew shellenv)"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
+track_time "shellenv"
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -82,12 +90,13 @@ export ZSH="$HOME/.oh-my-zsh"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
+start=`date +%s.%N`
 if [[ -f "$ZSH/oh-my-zsh.sh" ]]; then
   source $ZSH/oh-my-zsh.sh
 else
   echo oh-my-zsh not installed
 fi
-
+track_time "oh-my"
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -114,12 +123,14 @@ export EDITOR='nvim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
+start=`date +%s.%N`
 if [[ -f "/opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
   source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 else
   echo powerlevel10k theme not installed
 fi
-
+track_time "pk10 theme"
+start=`date +%s.%N`
 # History settings
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -132,9 +143,12 @@ setopt hist_ignore_all_dups
 setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
-
+track_time "history"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+
+start=`date +%s.%N`
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+track_time "pk1o.zsh"
 export PATH="/opt/homebrew/opt/php@8.3/bin:$PATH"
 export PATH="/opt/homebrew/opt/php@8.3/sbin:$PATH"
 # export LDFLAGS="-L/opt/homebrew/opt/php@8.3/lib"
@@ -146,17 +160,19 @@ export CLOUDSDK_PYTHON=python3.12
 #function f() { find . -iname "*$1*" ${@:2} }
 #function r() { grep "$1" ${@:2} -R . }
 
+start=`date +%s.%N`
 export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/google-cloud-sdk/completion.zsh.inc
 source /opt/homebrew/share/google-cloud-sdk/path.zsh.inc
-
+track_time "zsh autosuggest"
+start=`date +%s.%N`
 if [ /opt/homebrew/bin/kubectl ]; then source <(kubectl completion zsh);
 else
   echo kubectl not installed
 fi
-
+track_time "kube complete"
 
 export TZ="Europe/Berlin"
 
@@ -168,20 +184,30 @@ export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 export PATH="/Library/Java/JavaVirtualMachines/graalvm-community-openjdk-21/Contents/Home/bin:$PATH"
 
 # fuzzy finder search
+start=`date +%s.%N`
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(fzf --zsh)"
-
+track_time "fzf"
 # Aliases
 alias vim="nvim"
 alias vi="nvim"
 alias k="kubectl"
+alias :q=exit
 
+# nvim mason bin path
+export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 # mysql stuff
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+# krew path
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
 
 # own secrets as env vars - MUST NOT BE VERSIONED
+start=`date +%s.%N`
 source ~/.local/krugs/local_credentials.sh
+track_time "creds"
 
+start=`date +%s.%N`
 if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
@@ -190,7 +216,8 @@ fi
 fpath=(/Users/krugs/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
+track_time "compinit"
 # End of Docker CLI completions
 end=`date +%s.%N`
-runtime=$( echo "$end - $start" | bc -l )
+runtime=$( echo "$end - $start_init" | bc -l )
 echo "zshrc loading time $runtime"
