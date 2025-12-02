@@ -7,7 +7,7 @@ local workspace_path = home .. "/.local/share/nvim/jdtls-workspace"
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 local workspace_dir = workspace_path .. "/" .. project_name
 -- local lombok_jar = home .. '/.local/share/nvim/lombok/lombok.jar'
-local lombok_jar = jdtls_install_location .. "/lombok.jar"
+-- local lombok_jar = jdtls_install_location .. "/lombok.jar"
 
 if not status then
   print("jdtls not found")

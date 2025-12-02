@@ -231,6 +231,7 @@ return {
 			},
 		})
 		vim.lsp.enable("ts_ls")
+		vim.lsp.enable("terraformls")
 		-- vim.lsp.config("docker-language-server", {
 		-- 	capabilities = capabilities,
 		-- 	cmd = { "docker-language-server", "start", "--stdio" },
