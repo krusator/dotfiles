@@ -20,6 +20,8 @@ return {
 		{ "<F7>", "<cmd>lua require('dap').step_out()<CR>", desc = "Step Out" },
 		{ "<leader>dr", "<cmd>lua require('dap').repl.toggle()<CR>", desc = "Toggle REPL" },
 		{ "<leader>du", "<cmd>lua require('dapui').toggle()<CR>", desc = "Toggle DAP UI" },
+		{ "<leader>dt", "<cmd>:lua require('dap-go').debug_test()<CR>", desc = "Debug nearest test"},
+		{ "<leader>dr", "<cmd>:lua require('dap-go').debug_last_test()<CR>", desc = "Debug last run test"},
 	},
 	config = function()
 		local dap = require("dap")

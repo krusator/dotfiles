@@ -193,6 +193,8 @@ alias vim="nvim"
 alias vi="nvim"
 alias k="kubectl"
 alias :q=exit
+alias ctx="kubectx"
+alias cls="clear && printf '\e[3J'"
 
 # nvim mason bin path
 export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
