@@ -54,7 +54,7 @@ return {
 			command = "node",
 			args = { vscode_php_debug_location .. "/out/phpDebug.js" },
 		}
-		require("dap.ext.vscode").load_launchjs(home .. "/.config/nvim/launch.json", { php = { "php" } })
+		-- load_launchjs is deprecated - launch.json files are now loaded automatically on-demand
 		-- dap.configurations.php = {
 		--   {
 		--     type = "php",
