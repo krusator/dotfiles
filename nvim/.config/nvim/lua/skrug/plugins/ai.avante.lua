@@ -13,11 +13,12 @@ return {
     -- add any opts here
     -- this file can contain specific instructions for your project
     instructions_file = "avante.md",
+    file_selector = "telescope", -- Use telescope for better UI
     -- for example
     provider = "copilot",
     providers = {
       copilot = {
-        model = "gpt-5"
+        model = "gpt-5.2-codex"
         -- model = "gpt-4.1"
       },
       claude = {
@@ -29,15 +30,15 @@ return {
             max_tokens = 20480,
           },
       },
-      moonshot = {
-        endpoint = "https://api.moonshot.ai/v1",
-        model = "kimi-k2-0711-preview",
-        timeout = 30000, -- Timeout in milliseconds
-        extra_request_body = {
-          temperature = 0.75,
-          max_tokens = 32768,
-        },
-      },
+      -- moonshot = {
+      --   endpoint = "https://api.moonshot.ai/v1",
+      --   model = "kimi-k2-0711-preview",
+      --   timeout = 30000, -- Timeout in milliseconds
+      --   extra_request_body = {
+      --     temperature = 0.75,
+      --     max_tokens = 32768,
+      --   },
+      -- },
     },
     -- system_prompt as function ensures LLM always has latest MCP server state
     -- This is evaluated for every message, even in existing chats
