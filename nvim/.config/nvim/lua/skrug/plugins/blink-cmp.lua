@@ -5,6 +5,7 @@ return {
 		"rafamadriz/friendly-snippets",
 		"fang2hou/blink-copilot",
 		"folke/lazydev.nvim", -- optional: for lazy loading
+		-- "Kaiser-Yang/blink-cmp-avante",
 	},
 
 	-- use a release tag to download pre-built binaries
@@ -59,6 +60,13 @@ return {
 					score_offset = 1,
 					async = true,
 				},
+				-- avante = {
+				-- 	module = "blink-cmp-avante",
+				-- 	name = "Avante",
+				-- 	opts = {
+				-- 		-- options for blink-cmp-avante
+				-- 	},
+				-- },
 				lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
 			},
 		},

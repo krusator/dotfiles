@@ -15,7 +15,6 @@ return {
 			["*"] = true,
 		},
 		copilot_model = "gpt-41-copilot",
-		-- copilot_model = "GPT-5-CODEX",
 		server_opts_overrides = {
 			settings = {
 				telemetry = {

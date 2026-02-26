@@ -2,8 +2,7 @@ return {
   "yetone/avante.nvim",
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
   -- ⚠️ must add this setting! ! !
-  build = vim.fn.has("win32") ~= 0
-      and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+  build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
       or "make",
   event = "VeryLazy",
   version = false, -- Never set this value to "*"! Never!
@@ -16,20 +15,15 @@ return {
     file_selector = "telescope", -- Use telescope for better UI
     -- for example
     provider = "copilot",
+    selector = {
+      provider = "telescope",
+    },
     providers = {
       copilot = {
-        model = "gpt-5.2-codex"
-        -- model = "gpt-4.1"
+        -- model = "gpt-5.2-codex",
+        model = "gpt-4.1"
       },
-      claude = {
-        endpoint = "https://api.anthropic.com",
-        model = "claude-sonnet-4-20250514",
-        timeout = 30000, -- Timeout in milliseconds
-          extra_request_body = {
-            temperature = 0.75,
-            max_tokens = 20480,
-          },
-      },
+
       -- moonshot = {
       --   endpoint = "https://api.moonshot.ai/v1",
       --   model = "kimi-k2-0711-preview",
@@ -62,9 +56,9 @@ return {
     -- "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
     -- "ibhagwan/fzf-lua", -- for file_selector provider fzf
     -- "stevearc/dressing.nvim", -- for input provider dressing
-    "folke/snacks.nvim", -- for input provider snacks
+    "folke/snacks.nvim",         -- for input provider snacks
     "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-    "zbirenbaum/copilot.lua", -- for providers='copilot'
+    "zbirenbaum/copilot.lua",    -- for providers='copilot'
     {
       -- support for image pasting
       "HakonHarnes/img-clip.nvim",
@@ -84,7 +78,7 @@ return {
     },
     {
       -- Make sure to set this up properly if you have lazy=true
-      'MeanderingProgrammer/render-markdown.nvim',
+      "MeanderingProgrammer/render-markdown.nvim",
       opts = {
         file_types = { "markdown", "Avante" },
       },
