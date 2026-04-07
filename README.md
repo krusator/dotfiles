@@ -6,6 +6,12 @@ they can be managed on a machine using gnu stow with the following commands:
 stow -t ~ nvim zshrc tmux kitty tools ghostty
 ```
 
+on macOS you can also use the installer script:
+
+```sh
+./install.sh
+```
+
 ## Requirements
 
 * [Homebrew](https://brew.sh/) (for macOS)

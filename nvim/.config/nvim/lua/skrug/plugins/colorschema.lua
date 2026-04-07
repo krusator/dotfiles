@@ -61,6 +61,7 @@ return {
 				styles = {
 					comments = "italic",
 				},
+				transparent = true, -- Disable setting background
 			},
 			palettes = {
 				all = {

@@ -1,5 +1,7 @@
 theme = Nightfox
 font-family = JetBrains Mono
 
-fullscreen = true
-macos-non-native-fullscreen = visible-menu
+#fullscreen = true
+#macos-titlebar-style = hidden
+#macos-non-native-fullscreen = visible-menu
+background-opacity = 0.8

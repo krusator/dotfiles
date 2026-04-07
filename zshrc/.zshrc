@@ -202,6 +202,7 @@ export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 # krew path
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+# no TLS inspection for copilot cli
 
 
 # own secrets as env vars - MUST NOT BE VERSIONED
