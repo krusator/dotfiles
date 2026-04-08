@@ -36,6 +36,10 @@ return {
 					"--column",
 					"--smart-case",
 					"--hidden", -- thats the new thing
+					"--glob",
+					"!**/.git/*",
+					"--glob",
+					"!**/node_modules/*",
 				},
 				layout_config = {
 					width = 0.95,
@@ -44,8 +48,17 @@ return {
 			},
 			pickers = {
 				find_files = {
-					file_ignore_patterns = { "node_modules", ".git" },
 					hidden = true,
+					find_command = {
+						"rg",
+						"--files",
+						"--hidden",
+						"--glob",
+						"!**/.git/*",
+						"--glob",
+						"!**/node_modules/*",
+					},
+					file_ignore_patterns = { "^%.git/", "^node_modules/" },
 				},
 				live_grep = {
 				},
