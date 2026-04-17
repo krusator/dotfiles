@@ -16,9 +16,31 @@ return {
 		local sorters = require("telescope.config").values.generic_sorter
 		local utils = require("telescope.utils")
 		local builtin = require("telescope.builtin")
+		local uv = vim.uv or vim.loop
+
+		local function git_root_for(path)
+			local git_path = vim.fs.find(".git", { path = path, upward = true })[1]
+			return git_path and vim.fs.dirname(git_path) or nil
+		end
+
+		local function project_files()
+			local cwd = uv.cwd()
+			local git_root = git_root_for(cwd)
+
+			if git_root and git_root == cwd then
+				return builtin.git_files({
+					show_untracked = true,
+				})
+			end
+
+			return builtin.find_files({ cwd = cwd })
+		end
 
 		telescope.setup({
 			defaults = {
+				cache_picker = {
+					num_pickers = 20,
+				},
 				path_display = { "filename_first" },
 				mappings = {
 					i = {
@@ -44,6 +66,14 @@ return {
 				layout_config = {
 					width = 0.95,
 					preview_width = 0.3
+				},
+			},
+			extensions = {
+				fzf = {
+					fuzzy = true,
+					override_generic_sorter = true,
+					override_file_sorter = true,
+					case_mode = "smart_case",
 				},
 			},
 			pickers = {
@@ -79,12 +109,14 @@ return {
 		-- Set keymaps
 		local keymap = vim.keymap -- for conciseness
 
-		keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
+		keymap.set("n", "<leader>ff", project_files, { desc = "Fuzzy find files in cwd" })
 		keymap.set("n", "<leader>fh", function()
 			builtin.live_grep({ cwd = utils.buffer_dir() })
 		end, { desc = "Fuzzy find files in current buffer's directory" })
 		keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
-		keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Find string in cwd" })
+		keymap.set("n", "<leader>fs", function()
+			builtin.live_grep({ cwd = uv.cwd() })
+		end, { desc = "Find string in cwd" })
 		keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
 		keymap.set("n", "<leader>fD", "<cmd>Telescope diagnostics<cr>", { desc = "Show all diagnostics" })
 		keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Fuzzy find git branches" })

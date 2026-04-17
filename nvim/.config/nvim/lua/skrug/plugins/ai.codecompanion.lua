@@ -20,13 +20,13 @@ return {
         },
       },
     },
-    {
-      "MeanderingProgrammer/render-markdown.nvim",
-      opts = {
-        file_types = { "markdown", "codecompanion" },
-      },
-      ft = { "markdown", "codecompanion" },
-    },
+    -- {
+    --   "MeanderingProgrammer/render-markdown.nvim",
+    --   opts = {
+    --     file_types = { "markdown", "codecompanion" },
+    --   },
+    --   ft = { "markdown", "codecompanion" },
+    -- },
   },
   keys = {
     { "<leader>ai", "<cmd>CodeCompanionChat Toggle<cr>", mode = { "n", "v" }, desc = "Toggle AI Chat" },
