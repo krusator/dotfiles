@@ -17,7 +17,6 @@ return {
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 	},
 	config = function()
-		local util = require("lspconfig.util")
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = true }),
 			callback = function(event)
@@ -157,18 +156,12 @@ return {
 					-- [vim.diagnostic.severity.INFO] = "󰠠  ",
 					-- [vim.diagnostic.severity.HINT] = "  ",
 				},
-			} or {},
+			},
 			virtual_text = {
 				source = "if_many",
 				spacing = 2,
 				format = function(diagnostic)
-					local diagnostic_message = {
-						[vim.diagnostic.severity.ERROR] = diagnostic.message,
-						[vim.diagnostic.severity.WARN] = diagnostic.message,
-						[vim.diagnostic.severity.INFO] = diagnostic.message,
-						[vim.diagnostic.severity.HINT] = diagnostic.message,
-					}
-					return diagnostic_message[diagnostic.severity]
+					return diagnostic.message
 				end,
 			},
 		})
@@ -231,7 +224,9 @@ return {
 			},
 		})
 		vim.lsp.enable("ts_ls")
+		vim.lsp.config("ts_ls", { capabilities = capabilities })
 		vim.lsp.enable("terraformls")
+		vim.lsp.config("terraformls", { capabilities = capabilities })
 		-- vim.lsp.config("docker-language-server", {
 		-- 	capabilities = capabilities,
 		-- 	cmd = { "docker-language-server", "start", "--stdio" },

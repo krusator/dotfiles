@@ -5,7 +5,6 @@ return {
 		"theHamsta/nvim-dap-virtual-text",
 		"rcarriga/nvim-dap-ui",
 		"nvim-telescope/telescope-dap.nvim",
-		"theHamsta/nvim-dap-virtual-text",
 		"jay-babu/mason-nvim-dap.nvim",
 	},
 	keys = {
@@ -21,7 +20,7 @@ return {
 		{ "<leader>dr", "<cmd>lua require('dap').repl.toggle()<CR>", desc = "Toggle REPL" },
 		{ "<leader>du", "<cmd>lua require('dapui').toggle()<CR>", desc = "Toggle DAP UI" },
 		{ "<leader>dt", "<cmd>:lua require('dap-go').debug_test()<CR>", desc = "Debug nearest test"},
-		{ "<leader>dr", "<cmd>:lua require('dap-go').debug_last_test()<CR>", desc = "Debug last run test"},
+		{ "<leader>dL", "<cmd>:lua require('dap-go').debug_last_test()<CR>", desc = "Debug last run test"},
 	},
 	config = function()
 		local dap = require("dap")
