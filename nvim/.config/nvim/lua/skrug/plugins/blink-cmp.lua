@@ -39,7 +39,7 @@ return {
 
 		-- (Default) Only show the documentation popup when manually triggered
 		completion = {
-			documentation = { auto_show = false },
+			documentation = { auto_show = true, auto_show_delay_ms = 400 },
 			menu = {
 				border = "rounded", -- 'none' or 'rounded'
 			},
@@ -73,7 +73,7 @@ return {
 		-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
 		--
 		-- See the fuzzy documentation for more information
-		fuzzy = { implementation = "prefer_rust_with_warning" },
+		fuzzy = { implementation = "prefer_rust" },
 	},
 	opts_extend = { "sources.default" },
 }
