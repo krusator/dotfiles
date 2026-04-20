@@ -198,6 +198,8 @@ alias cls="clear && printf '\e[3J'"
 
 # nvim mason bin path
 export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
+# go binaries
+export PATH="$HOME/go/bin:$PATH"
 # mysql stuff
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 # krew path

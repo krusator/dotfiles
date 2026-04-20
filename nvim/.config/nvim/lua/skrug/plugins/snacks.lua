@@ -22,7 +22,7 @@ return {
         },
         files = {
           hidden = true,
-          args = { "--glob", "!**/.git/*", "--glob", "!**/node_modules/*" },
+          args = { "--exclude", ".git", "--exclude", "node_modules" },
         },
       },
     },

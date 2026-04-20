@@ -11,13 +11,13 @@ return {
 
     -- Hunk actions
     vim.keymap.set("n", "<leader>gh", gs.preview_hunk, { desc = "Preview hunk" })
-    vim.keymap.set("n", "<leader>gs", gs.stage_hunk, { desc = "Stage hunk" })
+    -- vim.keymap.set("n", "<leader>gs", gs.stage_hunk, { desc = "Stage hunk" })
     vim.keymap.set("n", "<leader>gr", gs.reset_hunk, { desc = "Reset hunk" })
-    vim.keymap.set("v", "<leader>gs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { desc = "Stage hunk (visual)" })
+    -- vim.keymap.set("v", "<leader>gs", function() gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { desc = "Stage hunk (visual)" })
     vim.keymap.set("v", "<leader>gr", function() gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") }) end, { desc = "Reset hunk (visual)" })
     vim.keymap.set("n", "<leader>gS", gs.stage_buffer, { desc = "Stage buffer" })
     vim.keymap.set("n", "<leader>gR", gs.reset_buffer, { desc = "Reset buffer" })
-    vim.keymap.set("n", "<leader>gu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
+    -- vim.keymap.set("n", "<leader>gu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
 
     -- Blame
     vim.keymap.set("n", "<leader>gb", gs.blame_line, { desc = "Blame line" })
