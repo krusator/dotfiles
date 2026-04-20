@@ -66,12 +66,8 @@ return {
 
 				-- opts.desc = "Go to previous diagnostic"
 				-- keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-				-- map("[d", vim.diagnostic.goto_prev, "[P]revious [d]iagnostic")
+				-- Using < / > instead of [ / ] — easier on German keyboard layout (no AltGr needed)
 				map("<d", vim.diagnostic.goto_prev, "[P]revious [d]iagnostic")
-
-				-- opts.desc = "Go to next diagnostic"
-				-- keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-				-- map("]d", vim.diagnostic.goto_next, "[N]ext [d]iagnostic")
 				map(">d", vim.diagnostic.goto_next, "[N]ext [d]iagnostic")
 
 				-- opts.desc = "Show documentation for what is under cursor"
