@@ -12,7 +12,20 @@ return {
     explorer = { enabled = false },
     indent = { enabled = true },
     input = { enabled = true },
-    picker = { enabled = false },
+    picker = {
+      enabled = true,
+      layout = { preset = "telescope" },
+      sources = {
+        grep = {
+          hidden = true,
+          args = { "--glob", "!**/.git/*", "--glob", "!**/node_modules/*" },
+        },
+        files = {
+          hidden = true,
+          args = { "--glob", "!**/.git/*", "--glob", "!**/node_modules/*" },
+        },
+      },
+    },
     notifier = { enabled = true, width = { min = 40, max = 0.9 }, style = "fancy" },
     quickfile = { enabled = true },
     scope = { enabled = true },

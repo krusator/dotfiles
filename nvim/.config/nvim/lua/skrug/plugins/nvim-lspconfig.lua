@@ -29,64 +29,22 @@ return {
 
 				-- set keybinds
 				-- opts.desc = "Show LSP references"
-				-- keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
-				map("gR", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-
-				-- opts.desc = "Go to declaration"
-				-- keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
+				map("gR", function() Snacks.picker.lsp_references() end, "[G]oto [R]eferences")
 				map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-
-				-- opts.desc = "Show LSP definitions"
-				-- keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
-				map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
-
-				-- opts.desc = "Show LSP implementations"
-				-- keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-				map("gi", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-
-				-- opts.desc = "Show LSP type definitions"
-				-- keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-				map("gt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
-
-				-- opts.desc = "See available code actions"
-				-- keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
+				map("gd", function() Snacks.picker.lsp_definitions() end, "[G]oto [D]efinition")
+				map("gi", function() Snacks.picker.lsp_implementations() end, "[G]oto [I]mplementation")
+				map("gt", function() Snacks.picker.lsp_type_definitions() end, "[G]oto [T]ype Definition")
 				map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "v" })
-
-				-- opts.desc = "Smart rename"
-				-- keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 				map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame variable under cursor")
-
-				-- opts.desc = "Show buffer diagnostics"
-				-- keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-				map("<leader>D", require("telescope.builtin").diagnostics, "[D]iagnostics for current buffer")
-
-				-- opts.desc = "Show line diagnostics"
-				-- keymap.set("n", "<leader>dl", vim.diagnostic.open_float, opts) -- show diagnostics for line
+				map("<leader>D", function() Snacks.picker.diagnostics_buffer() end, "[D]iagnostics for current buffer")
 				map("<leader>dl", vim.diagnostic.open_float, "[d]iagnostics for [l]ine")
-
-				-- opts.desc = "Go to previous diagnostic"
-				-- keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
 				-- Using < / > instead of [ / ] — easier on German keyboard layout (no AltGr needed)
 				map("<d", vim.diagnostic.goto_prev, "[P]revious [d]iagnostic")
 				map(">d", vim.diagnostic.goto_next, "[N]ext [d]iagnostic")
-
-				-- opts.desc = "Show documentation for what is under cursor"
-				-- keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 				map("K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
-
-				-- opts.desc = "Restart LSP"
-				-- keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
-				map("<leader>rs", function()
-					vim.cmd("LspRestart")
-				end, "Restart LSP")
-
-				-- Fuzzy find all the symbols in your current document.
-				--  Symbols are things like variables, functions, types, etc.
-				map("gO", require("telescope.builtin").lsp_document_symbols, "Open Document Symbols")
-
-				-- Fuzzy find all the symbols in your current workspace.
-				--  Similar to document symbols, except searches over your entire project.
-				map("gW", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Open Workspace Symbols")
+				map("<leader>rs", function() vim.cmd("LspRestart") end, "Restart LSP")
+				map("gO", function() Snacks.picker.lsp_symbols() end, "Open Document Symbols")
+				map("gW", function() Snacks.picker.lsp_workspace_symbols() end, "Open Workspace Symbols")
 
 				-- The following two autocommands are used to highlight references of the
 				-- word under your cursor when your cursor rests there for a little while.

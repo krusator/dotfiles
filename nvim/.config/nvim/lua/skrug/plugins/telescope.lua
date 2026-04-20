@@ -106,22 +106,20 @@ return {
 		telescope.load_extension("fzf")
 		telescope.load_extension("live_grep_args")
 
-		-- Set keymaps
+		-- Set keymaps — using Snacks.picker for file/grep/lsp pickers
 		local keymap = vim.keymap -- for conciseness
 
-		keymap.set("n", "<leader>ff", project_files, { desc = "Fuzzy find files in cwd" })
+		keymap.set("n", "<leader>ff", function() Snacks.picker.files() end, { desc = "Fuzzy find files in cwd" })
 		keymap.set("n", "<leader>fh", function()
-			builtin.live_grep({ cwd = utils.buffer_dir() })
-		end, { desc = "Fuzzy find files in current buffer's directory" })
-		keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Fuzzy find recent files" })
-		keymap.set("n", "<leader>fs", function()
-			builtin.live_grep({ cwd = uv.cwd() })
-		end, { desc = "Find string in cwd" })
-		keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Find string under cursor in cwd" })
-		keymap.set("n", "<leader>fD", "<cmd>Telescope diagnostics<cr>", { desc = "Show all diagnostics" })
-		keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "Fuzzy find git branches" })
-		keymap.set("n", "<leader><space>", builtin.buffers, { desc = "[ ] Find existing buffers" })
-		keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", { desc = "Find string in dir -> \"my string\" in_here" })
+			Snacks.picker.grep({ cwd = utils.buffer_dir() })
+		end, { desc = "Find string in current buffer's directory" })
+		keymap.set("n", "<leader>fr", function() Snacks.picker.recent() end, { desc = "Fuzzy find recent files" })
+		keymap.set("n", "<leader>fs", function() Snacks.picker.grep() end, { desc = "Find string in cwd" })
+		keymap.set("n", "<leader>fc", function() Snacks.picker.grep_word() end, { desc = "Find string under cursor in cwd" })
+		keymap.set("n", "<leader>fD", function() Snacks.picker.diagnostics() end, { desc = "Show all diagnostics" })
+		keymap.set("n", "<leader>gb", function() Snacks.picker.git_branches() end, { desc = "Fuzzy find git branches" })
+		keymap.set("n", "<leader><space>", function() Snacks.picker.buffers() end, { desc = "[ ] Find existing buffers" })
+		keymap.set("n", "<leader>fg", function() Snacks.picker.grep() end, { desc = "Find string in cwd" })
 		
 		-- CodeCompanion Model Picker – opens a new chat with the selected adapter/model
 		keymap.set("n", "<leader>am", function()
