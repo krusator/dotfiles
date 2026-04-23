@@ -20,7 +20,7 @@ return {
     -- vim.keymap.set("n", "<leader>gu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
 
     -- Blame
-    vim.keymap.set("n", "<leader>gb", gs.blame_line, { desc = "Blame line" })
+    -- vim.keymap.set("n", "<leader>gb", gs.blame_line, { desc = "Blame line" })
     vim.keymap.set("n", "<leader>gB", function() gs.blame_line({ full = true }) end, { desc = "Blame line (full)" })
     vim.keymap.set("n", "<leader>gtb", gs.toggle_current_line_blame, { desc = "Toggle line blame" })
 
