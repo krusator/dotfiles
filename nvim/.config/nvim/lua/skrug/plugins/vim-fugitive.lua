@@ -1,10 +1,17 @@
 return {
   "tpope/vim-fugitive",
-  config = function ()
+  config = function()
+    local function git_in_split(args)
+      return function()
+        vim.cmd("botright 15new")
+        vim.fn.termopen("git " .. args)
+      end
+    end
+
     vim.keymap.set("n", "<leader>cc", "<cmd>Git commit .<CR>", { desc = "Git commit all" })
     vim.keymap.set("n", "<leader>gf", "<cmd>Git commit %<CR>", { desc = "Git commit current file" })
-    vim.keymap.set("n", "<leader>gp", "<cmd>botright Git push<CR>", { desc = "Git push" })
-    vim.keymap.set("n", "<leader>gu", "<cmd>botright Git pull<CR>", { desc = "Git pull" })
+    vim.keymap.set("n", "<leader>gp", git_in_split("push"), { desc = "Git push" })
+    vim.keymap.set("n", "<leader>gu", git_in_split("pull"), { desc = "Git pull" })
     vim.keymap.set("n", "<leader>gs", "<cmd>Git<CR>", { desc = "Git status" })
-  end
+  end,
 }
