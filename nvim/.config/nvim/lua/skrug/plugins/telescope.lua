@@ -117,7 +117,7 @@ return {
 		keymap.set("n", "<leader>fs", function() Snacks.picker.grep() end, { desc = "Find string in cwd" })
 		keymap.set("n", "<leader>fc", function() Snacks.picker.grep_word() end, { desc = "Find string under cursor in cwd" })
 		keymap.set("n", "<leader>fD", function() Snacks.picker.diagnostics() end, { desc = "Show all diagnostics" })
-		keymap.set("n", "<leader>gb", function() Snacks.picker.git_branches() end, { desc = "Fuzzy find git branches" })
+		keymap.set("n", "<leader>gb", function() Snacks.picker.git_branches({ all = true }) end, { desc = "Fuzzy find git branches" })
 		keymap.set("n", "<leader><space>", function() Snacks.picker.buffers() end, { desc = "[ ] Find existing buffers" })
 		keymap.set("n", "<leader>fg", function() Snacks.picker.grep() end, { desc = "Find string in cwd" })
 		

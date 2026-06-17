@@ -14,7 +14,8 @@ return {
 			-- go = true,
 			["*"] = true,
 		},
-		copilot_model = "gpt-41-copilot",
+		-- copilot_model = "gpt-41-copilot",
+		-- copilot_model = "gpt-4o-copilot",
 		server_opts_overrides = {
 			settings = {
 				telemetry = {
