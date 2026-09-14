@@ -13,3 +13,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- require("lazy").setup("skrug.plugins")
 require("lazy").setup({ { import = "skrug.plugins" } }, {})
+
+-- Plugins loaded outside of lazy.nvim's management (local dev checkouts, etc.)
+require("skrug.local_dev_plugins")

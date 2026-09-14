@@ -3,18 +3,20 @@ return {
 	dependencies = {
 		-- Automatically install LSPs and related tools to stdpath for Neovim
 		-- Mason must be loaded before its dependents so we need to set it up here.
-		-- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-		{ "mason-org/mason.nvim", opts = {} },
+		{ "mason-org/mason.nvim", config = function() require("mason").setup({}) end },
 		-- "mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 		-- Useful status updates for LSP.
-		{ "j-hui/fidget.nvim",    opts = {} },
+		{ "j-hui/fidget.nvim", config = function() require("fidget").setup({}) end },
 
 		-- Allows extra capabilities provided by blink.cmp
 		"saghen/blink.cmp",
 
-		{ "antosha417/nvim-lsp-file-operations", config = true },
+		{
+			"antosha417/nvim-lsp-file-operations",
+			config = function() require("lsp-file-operations").setup() end,
+		},
 	},
 	config = function()
 		vim.api.nvim_create_autocmd("LspAttach", {

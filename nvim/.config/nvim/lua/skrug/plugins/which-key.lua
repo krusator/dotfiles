@@ -1,8 +1,10 @@
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
-  opts = {
-    mappings = true,
-    keys = {},
-  },
+  config = function()
+    require("which-key").setup({
+      mappings = true,
+      keys = {},
+    })
+  end,
 }
