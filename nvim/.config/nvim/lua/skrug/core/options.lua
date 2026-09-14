@@ -41,6 +41,19 @@ opt.clipboard:append("unnamedplus") -- use system clipboard as default register
 opt.splitright = true -- split vertical window to the right
 opt.splitbelow = true -- split horizontal window to the bottom
 
+-- folding based on Treesitter's syntax tree instead of indent/manual
+-- (foldlevel=99 keeps everything open by default; use zc/zM to fold)
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+
+-- rounded border for all floating windows (hover, checkhealth, Mason UI, ...)
+vim.o.winborder = "rounded"
+
+-- live preview of :substitute in a split before confirming
+opt.inccommand = "split"
+
 -- turn off swapfile
 opt.swapfile = false
 
