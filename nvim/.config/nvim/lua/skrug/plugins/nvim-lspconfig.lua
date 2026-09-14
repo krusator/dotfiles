@@ -121,16 +121,15 @@ return {
 		})
 		local original_capabilities = vim.lsp.protocol.make_client_capabilities()
 		local capabilities = require("blink.cmp").get_lsp_capabilities(original_capabilities)
+		-- Apply the blink.cmp capabilities to every server by default so we don't
+		-- have to repeat `capabilities = capabilities` in each vim.lsp.config() call.
+		vim.lsp.config("*", { capabilities = capabilities })
+
 		vim.lsp.enable("jdtls")
 		vim.lsp.enable("lua_ls")
-		vim.lsp.enable("phpactor")
-		vim.lsp.config("jdtls", {
-			capabilities = capabilities,
-		})
 		vim.lsp.config("lua_ls", {
 			-- cmd = { ... },
 			-- filetypes = { ... },
-			capabilities = capabilities,
 			settings = {
 				Lua = {
 					completion = {
@@ -144,29 +143,26 @@ return {
 				},
 			},
 		})
+		vim.lsp.enable("phpactor")
 		vim.lsp.config("phpactor", {
 			-- cmd = { ... },
 			-- filetypes = { ... },
 			root_dir = vim.fs.root(0, { ".ddev" }),
-			capabilities = capabilities,
 		})
 		vim.lsp.enable("bashls")
 		vim.lsp.config("bashls", {
 			-- cmd = { ... },
 			-- filetypes = { ... },
-			capabilities = capabilities,
 			cmd = { "bash-language-server", "start" },
 			filetypes = { "bash", "sh" },
 		})
 		vim.lsp.enable("twiggy_language_server")
 		vim.lsp.config("twiggy_language_server", {
-			capabilities = capabilities,
 			root_dir = vim.fs.root(0, { ".ddev" }),
 		})
 		-- vim.lsp.enable("docker-language-server")
 		vim.lsp.enable("gopls")
 		vim.lsp.config("gopls", {
-			capabilities = capabilities,
 			settings = {
 				gopls = {
 					analyses = {
@@ -178,13 +174,9 @@ return {
 			},
 		})
 		vim.lsp.enable("ts_ls")
-		vim.lsp.config("ts_ls", { capabilities = capabilities })
 		vim.lsp.enable("terraformls")
-		vim.lsp.config("terraformls", { capabilities = capabilities })
 		-- vim.lsp.enable("terragrunt-ls")
-		-- vim.lsp.config("terragrunt-ls", { capabilities = capabilities })
 		-- vim.lsp.config("docker-language-server", {
-		-- 	capabilities = capabilities,
 		-- 	cmd = { "docker-language-server", "start", "--stdio" },
 		-- 	filetypes = { "dockerfile", "yaml.docker-compose" },
 		-- 	root_markers = {
