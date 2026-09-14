@@ -14,4 +14,9 @@ local config = {
     bundles = bundles,
   },
 }
-print(vim.inspect(config))
+
+-- Only dump the resolved config when explicitly debugging (avoids spamming
+-- :messages on every load): set vim.g.skrug_debug_jdtls = true to enable.
+if vim.g.skrug_debug_jdtls then
+  print(vim.inspect(config))
+end
