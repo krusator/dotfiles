@@ -77,22 +77,23 @@ return {
 		-- 		port = 5005,
 		-- 	})
 		-- end --   },
-		function attach_to_debug()
-			dap.configurations.java = {
-				{
-					type = "java",
-					request = "attach",
-					name = "Debug (Attach) - Remote",
-					hostName = "127.0.0.1",
-					port = "5005",
-				},
-			} -- }
-		end
+		-- function attach_to_debug()
+		-- 	dap.configurations.java = {
+		-- 		{
+		-- 			type = "java",
+		-- 			request = "attach",
+		-- 			name = "Debug (Attach) - Remote",
+		-- 			hostName = "127.0.0.1",
+		-- 			port = "5005",
+		-- 		},
+		-- 	} -- }
+		-- end
 
 		vim.keymap.set("n", "<leader>da", ":lua attach_to_debug()<CR>")
 
 		require("mason-nvim-dap").setup({
-			ensure_installed = { "java-debug-adapter", "java-test" },
+			-- ensure_installed = { "java-debug-adapter", "java-test" },
+			ensure_installed = {},
 			automatic_installation = false,
 		})
 	end,

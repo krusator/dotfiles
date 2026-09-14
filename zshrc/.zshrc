@@ -154,7 +154,7 @@ export PATH="/opt/homebrew/opt/php@8.3/sbin:$PATH"
 # export LDFLAGS="-L/opt/homebrew/opt/php@8.3/lib"
 # export CPPFLAGS="-I/opt/homebrew/opt/php@8.3/include"
 
-export PATH="/opt/homebrew/opt/node@22/bin:$PATH"
+export PATH="/opt/homebrew/opt/node@24/bin:$PATH"
 
 export CLOUDSDK_PYTHON=python3.12
 #function f() { find . -iname "*$1*" ${@:2} }
