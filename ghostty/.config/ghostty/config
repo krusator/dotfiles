@@ -5,3 +5,4 @@ font-family = JetBrains Mono
 #macos-titlebar-style = hidden
 #macos-non-native-fullscreen = visible-menu
 background-opacity = 0.8
+desktop-notifications = true

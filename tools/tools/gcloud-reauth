@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# Re-runs `gcloud auth login` once every N hours (default 8).
+# Tracks the last successful login via the mtime of a state file.
+# Safe to call on every new shell — it's a no-op if the last login
+# is still within the freshness window, and otherwise returns
+# immediately: the actual `gcloud auth login` (browser + local
+# redirect server) runs detached in the background so sourcing
+# .zshrc never blocks on it. A lock file prevents concurrent logins
+# when several shells start at once.
+#
+# Usage: gcloud-reauth [max_age_hours] [-f|--foreground]
+
+set -euo pipefail
+
+FOREGROUND=0
+MAX_AGE_HOURS=8
+for arg in "$@"; do
+  case "$arg" in
+    -f|--foreground) FOREGROUND=1 ;;
+    *) MAX_AGE_HOURS="$arg" ;;
+  esac
+done
+
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}"
+STATE_FILE="$STATE_DIR/gcloud-reauth-last-login"
+LOCK_DIR="$STATE_DIR/gcloud-reauth.lock"
+LOG_FILE="$STATE_DIR/gcloud-reauth.log"
+
+command -v gcloud >/dev/null 2>&1 || { echo "gcloud-reauth: gcloud not found" >&2; exit 1; }
+
+mkdir -p "$STATE_DIR"
+
+now=$(date +%s)
+max_age_secs=$((MAX_AGE_HOURS * 3600))
+
+if [[ -f "$STATE_FILE" ]]; then
+  last=$(date -r "$STATE_FILE" +%s 2>/dev/null || echo 0)
+  age=$((now - last))
+  if (( age < max_age_secs )); then
+    exit 0
+  fi
+fi
+
+if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+  echo "gcloud-reauth: login already in progress elsewhere, skipping" >&2
+  exit 0
+fi
+
+run_login() {
+  trap 'rmdir "$LOCK_DIR" 2>/dev/null' EXIT
+  {
+    echo "$(date '+%F %T') gcloud-reauth: starting 'gcloud auth login'"
+    if gcloud auth login; then
+      touch "$STATE_FILE"
+      echo "$(date '+%F %T') gcloud-reauth: login succeeded"
+    else
+      echo "$(date '+%F %T') gcloud-reauth: login failed, will retry next time"
+    fi
+  } >>"$LOG_FILE" 2>&1
+}
+
+if (( FOREGROUND )); then
+  run_login
+else
+  echo "gcloud-reauth: last login older than ${MAX_AGE_HOURS}h (or none) — logging in via browser in the background (see $LOG_FILE)"
+  run_login &
+  disown
+fi

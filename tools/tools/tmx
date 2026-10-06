@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
 cd ~/Projects || exit
-SELECTED_DIR=$(find ~/Projects ~/Projects/innoday ~/Projects/advent-of-code ~/Projects/inspire ~/Projects/peng ~/Projects/misc ~/dotfiles ~/tools -maxdepth 1 -type d | fzf)
+SELECTED_DIR=$(find ~/Projects ~/Projects/misc/innoday ~/Projects/misc/advent-of-code ~/Projects/misc/inspire ~/Projects/peng ~/Projects/misc ~/dotfiles ~/tools -maxdepth 1 -type d | fzf)
 echo "$SELECTED_DIR"
 cd "$SELECTED_DIR" || exit
 tmux new-session -s "${SELECTED_DIR##*/}" -d
