@@ -1,12 +1,19 @@
 # ---------------------------------------------------------------------------
+# Prompt engine switch — p10k is in maintenance-only mode, trying Starship.
+# Set to "p10k" to flip back instantly while trying Starship out.
+# ---------------------------------------------------------------------------
+export ZSH_PROMPT_ENGINE="${ZSH_PROMPT_ENGINE:-starship}"
+
+# ---------------------------------------------------------------------------
 # Powerlevel10k instant prompt
 # Must stay near the top. Initialization code that may require console input
 # (password prompts, [y/n] confirmations, etc.) must go above this block;
 # everything else may go below.
+# Only relevant when ZSH_PROMPT_ENGINE=p10k.
 # ---------------------------------------------------------------------------
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+if [[ "$ZSH_PROMPT_ENGINE" == "p10k" && -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-else
+elif [[ "$ZSH_PROMPT_ENGINE" == "p10k" ]]; then
   echo no p10k-instant-prompt-
 fi
 
@@ -45,15 +52,22 @@ fi
 export EDITOR='nvim'
 
 # ---------------------------------------------------------------------------
-# Powerlevel10k theme
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# Prompt theme — Starship (default) or Powerlevel10k (ZSH_PROMPT_ENGINE=p10k).
+# To customize the p10k prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# To customize Starship, edit ~/.config/starship.toml (starship package).
 # ---------------------------------------------------------------------------
-if [[ -f "/opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
-  source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+if [[ "$ZSH_PROMPT_ENGINE" == "p10k" ]]; then
+  if [[ -f "/opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
+    source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+  else
+    echo powerlevel10k theme not installed
+  fi
+  [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+elif command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
 else
-  echo powerlevel10k theme not installed
+  echo starship not installed
 fi
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # ---------------------------------------------------------------------------
 # History

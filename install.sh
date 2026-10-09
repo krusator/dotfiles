@@ -8,7 +8,7 @@ if [[ "$(uname -s)" != "Darwin" ]]; then
 fi
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DOTFILES=(nvim zshrc tmux kitty tools ghostty)
+DOTFILES=(nvim zshrc tmux tools ghostty starship)
 
 if ! command -v brew >/dev/null 2>&1; then
   echo "Installing Homebrew..."
@@ -27,7 +27,7 @@ if ! command -v brew >/dev/null 2>&1; then
 fi
 
 echo "Installing required packages..."
-brew install stow
+brew install stow starship
 
 echo "Stowing dotfiles into $HOME..."
 cd "$REPO_ROOT"

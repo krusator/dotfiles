@@ -5,7 +5,8 @@ return {
 	config = function()
 		vim.cmd([[colorscheme kanagawa]])
 		require("kanagawa").setup({
-			theme = "dragon", -- Load "wave" theme when 'background' option is not set
+			transparent = true, -- do not set background color
+			theme = "wave", -- Load "wave" theme when 'background' option is not set
 			background = { -- map the value of 'background' option to a theme
 				dark = "wave", -- try "dragon" !
 				light = "lotus",

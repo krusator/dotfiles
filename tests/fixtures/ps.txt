@@ -1,0 +1,14 @@
+    1     0 /sbin/launchd
+  100     1 -zsh
+  101   100 claude
+  200     1 /bin/zsh
+  201   200 /opt/homebrew/bin/claude
+  300     1 zsh
+  301   300 claude
+  400     1 claude
+  500     1 zsh
+  501   500 nvim
+  600     1 zsh
+  601   600 node
+  602   601 claude
+  700     1 /Applications/Google Chrome.app/Contents/MacOS/Google Chrome

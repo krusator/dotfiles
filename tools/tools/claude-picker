@@ -1,0 +1,148 @@
+#!/usr/bin/env bash
+# Pick a running Claude Code instance from all tmux sessions and jump to it.
+# Usage: claude-picker [--pane|--list]
+#   (none)  popup layout (used by `prefix + a`)
+#   --pane  side pane layout (used by `prefix + A`)
+#   --list  print the entries without fzf (for tests)
+#   --focus print the line fzf starts on (for tests)
+# Status comes from the @claude_status pane option set by claude-tmux-status.
+
+set -uo pipefail
+PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+MODE="popup"
+case "${1:-}" in
+  "") ;;
+  --pane) MODE="pane" ;;
+  --list) MODE="list" ;;
+  --focus) MODE="focus" ;;
+  *)
+    echo "usage: claude-picker [--pane|--list|--focus]" >&2
+    exit 2
+    ;;
+esac
+
+TAB=$'\t'
+
+# pane_id, pane_pid, session:window.pane, path, status (tab separated)
+list_panes() {
+  if [[ -n "${CLAUDE_PICKER_PANES_FILE:-}" ]]; then
+    cat "$CLAUDE_PICKER_PANES_FILE"
+  else
+    tmux list-panes -a -F "#{pane_id}${TAB}#{pane_pid}${TAB}#{session_name}:#{window_index}.#{pane_index}${TAB}#{pane_current_path}${TAB}#{@claude_status}"
+  fi
+}
+
+# pid, ppid, command basename (tab separated)
+list_procs() {
+  if [[ -n "${CLAUDE_PICKER_PS_FILE:-}" ]]; then
+    cat "$CLAUDE_PICKER_PS_FILE"
+  else
+    ps -A -o pid=,ppid=,comm=
+  fi | awk '{ pid = $1; ppid = $2; $1 = $2 = ""; sub(/^ +/, "")
+              n = split($0, p, "/"); print pid "\t" ppid "\t" p[n] }'
+}
+
+# Claude panes as "<pane_id>\t<icon>  <target>  <path>\t<target>", most urgent first.
+collect() {
+  awk -F '\t' -v home="$HOME" '
+    BEGIN {
+      reset = "\033[0m"
+      rank["waiting"] = 1; icon["waiting"] = "󰂞"; color["waiting"] = "\033[38;2;243;139;168m"
+      rank["done"]    = 2; icon["done"]    = "󰗠"; color["done"]    = "\033[38;2;166;227;161m"
+      rank["working"] = 3; icon["working"] = "󰒓"; color["working"] = "\033[38;2;249;226;175m"
+      rank["unknown"] = 4; icon["unknown"] = "󰋗"; color["unknown"] = "\033[38;2;108;112;134m"
+    }
+    # First input: process table.
+    NR == FNR { comm[$1] = $3; if ($2 != $1) kids[$2] = kids[$2] " " $1; next }
+    # Second input: panes.
+    has_claude($2) {
+      status = ($5 in rank) ? $5 : "unknown"
+      path = $4
+      if (path == home) path = "~"
+      else if (index(path, home "/") == 1) path = "~" substr(path, length(home) + 1)
+      line = sprintf("%s%s%s  %-24s  %s", color[status], icon[status], reset, $3, path)
+      print rank[status] "\t" $3 "\t" $1 "\t" line "\t" $3
+    }
+    function has_claude(pid,   n, i, c) {
+      if (comm[pid] == "claude") return 1
+      n = split(kids[pid], c, " ")
+      for (i = 1; i <= n; i++) if (has_claude(c[i])) return 1
+      return 0
+    }
+  ' <(list_procs) <(list_panes) | sort -t "$TAB" -k1,1n -k2,2 | cut -f3-
+}
+
+# Where the picker was opened from: "<pane_id>\t<session:window.pane>".
+origin() {
+  if [[ -n "${CLAUDE_PICKER_ORIGIN+set}" ]]; then
+    printf '%s\n' "$CLAUDE_PICKER_ORIGIN"
+  else
+    tmux display-message -p "#{pane_id}${TAB}#{session_name}:#{window_index}.#{pane_index}" 2>/dev/null
+  fi
+}
+
+# Line number (1-based) of the entry to focus first: the origin pane itself,
+# else the first claude in the origin window, else in the origin session.
+focus_line() {
+  printf '%s\n' "$entries" | awk -F '\t' -v origin="$(origin)" '
+    BEGIN {
+      split(origin, o, "\t"); opane = o[1]
+      owin = o[2]; sub(/\.[^.]*$/, "", owin)
+      osess = o[2]; sub(/:[^:]*$/, "", osess)
+    }
+    {
+      win = $3; sub(/\.[^.]*$/, "", win)
+      sess = $3; sub(/:[^:]*$/, "", sess)
+      if (!pane_hit && $1 == opane) pane_hit = NR
+      if (!win_hit && o[2] != "" && win == owin) win_hit = NR
+      if (!sess_hit && o[2] != "" && sess == osess) sess_hit = NR
+    }
+    END { print pane_hit ? pane_hit : (win_hit ? win_hit : (sess_hit ? sess_hit : 1)) }
+  '
+}
+
+entries="$(collect)"
+
+if [[ "$MODE" == "list" ]]; then
+  [[ -n "$entries" ]] && printf '%s\n' "$entries"
+  exit 0
+fi
+
+if [[ "$MODE" == "focus" ]]; then
+  focus_line
+  exit 0
+fi
+
+if [[ -z "$entries" ]]; then
+  echo "Keine Claude-Instanzen gefunden"
+  sleep 1.5
+  exit 0
+fi
+
+if [[ "$MODE" == "pane" ]]; then
+  preview_window="down,50%,follow"
+else
+  preview_window="right,60%,follow"
+fi
+
+selected="$(printf '%s\n' "$entries" | fzf \
+  --ansi \
+  --delimiter="$TAB" \
+  --with-nth=2 \
+  --tiebreak=index \
+  --layout=reverse \
+  --prompt="Claude > " \
+  --header="Enter: springen · Esc: abbrechen" \
+  --preview="tmux capture-pane -ep -t {1}" \
+  --preview-window="$preview_window" \
+  --bind="load:pos($(focus_line))")"
+
+pane_id="${selected%%"$TAB"*}"
+[[ -n "$pane_id" ]] || exit 0
+
+# The pane may have vanished meanwhile; ignore errors then.
+tmux switch-client -t "$pane_id" 2>/dev/null
+tmux select-window -t "$pane_id" 2>/dev/null
+tmux select-pane -t "$pane_id" 2>/dev/null
+exit 0

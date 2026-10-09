@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Claude Code hook target: store the instance status as tmux pane option
+# @claude_status, read by claude-picker.
+# Usage: claude-tmux-status <working|waiting|done|clear>
+# Never fails and never prints, so it can't disturb Claude.
+
+# Drain the hook JSON from stdin (skip when run by hand in a terminal).
+[[ -t 0 ]] || cat >/dev/null 2>&1
+
+[[ -n "${TMUX_PANE:-}" ]] || exit 0
+
+case "${1:-}" in
+  working | waiting | done)
+    tmux set-option -p -t "$TMUX_PANE" @claude_status "$1" >/dev/null 2>&1
+    ;;
+  clear)
+    tmux set-option -p -u -t "$TMUX_PANE" @claude_status >/dev/null 2>&1
+    ;;
+esac
+
+exit 0

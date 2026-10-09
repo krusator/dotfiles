@@ -1,4 +1,5 @@
-theme = Nightfox
+#theme = Nightfox
+theme = Kanagawa Wave
 font-family = JetBrains Mono
 
 #fullscreen = true

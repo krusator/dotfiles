@@ -1,0 +1,6 @@
+%1	100	work:1.1	/Users/me/projects/api	waiting
+%2	200	dotfiles:1.2	/Users/me/dotfiles	done
+%3	300	my proj:2.1	/Users/me/my proj	working
+%4	400	misc:1.1	/tmp/foo	
+%5	500	shell:1.1	/Users/me	done
+%6	600	nested:1.1	/Users/meta/x	
