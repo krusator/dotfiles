@@ -34,10 +34,10 @@ assert_contains "$(line %3)" "my proj:2.1" "session with space"
 assert_contains "$(line %3)" "~/my proj" "path with space"
 assert_contains "$(line %6)" "/Users/meta/x" "home prefix not shortened for /Users/meta"
 
-assert_contains "$(printf '%s\n' "$out" | grep '^%1')" $'\e[38;2;243;139;168m' "waiting colored red"
-assert_contains "$(printf '%s\n' "$out" | grep '^%2')" $'\e[38;2;166;227;161m' "done colored green"
-assert_contains "$(printf '%s\n' "$out" | grep '^%3')" $'\e[38;2;249;226;175m' "working colored yellow"
-assert_contains "$(printf '%s\n' "$out" | grep '^%4')" $'\e[38;2;108;112;134m' "unknown colored gray"
+assert_contains "$(printf '%s\n' "$out" | grep '^%1')" $'\e[38;2;228;104;118m' "waiting colored red"
+assert_contains "$(printf '%s\n' "$out" | grep '^%2')" $'\e[38;2;152;187;108m' "done colored green"
+assert_contains "$(printf '%s\n' "$out" | grep '^%3')" $'\e[38;2;230;195;132m' "working colored yellow"
+assert_contains "$(printf '%s\n' "$out" | grep '^%4')" $'\e[38;2;114;113;105m' "unknown colored gray"
 
 # --- No instances ---------------------------------------------------------
 empty_ps="$(mktemp)"; printf '    1     0 launchd\n  500     1 zsh\n' >"$empty_ps"

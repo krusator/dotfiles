@@ -5,5 +5,5 @@ font-family = JetBrains Mono
 #fullscreen = true
 #macos-titlebar-style = hidden
 #macos-non-native-fullscreen = visible-menu
-background-opacity = 0.8
+# background-opacity = 0.8   # disabled: transparency breaks dimmed inactive tmux panes
 desktop-notifications = true

@@ -3,7 +3,7 @@ return {
 	lazy = false,
 	priority = 1000,
 	config = function()
-		vim.cmd([[colorscheme kanagawa]])
+		-- setup must run before loading the colorscheme, otherwise its options are ignored
 		require("kanagawa").setup({
 			transparent = true, -- do not set background color
 			theme = "wave", -- Load "wave" theme when 'background' option is not set
@@ -12,5 +12,6 @@ return {
 				light = "lotus",
 			},
 		})
+		vim.cmd([[colorscheme kanagawa]])
 	end,
 }

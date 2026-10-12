@@ -48,10 +48,10 @@ collect() {
   awk -F '\t' -v home="$HOME" '
     BEGIN {
       reset = "\033[0m"
-      rank["waiting"] = 1; icon["waiting"] = "󰂞"; color["waiting"] = "\033[38;2;243;139;168m"
-      rank["done"]    = 2; icon["done"]    = "󰗠"; color["done"]    = "\033[38;2;166;227;161m"
-      rank["working"] = 3; icon["working"] = "󰒓"; color["working"] = "\033[38;2;249;226;175m"
-      rank["unknown"] = 4; icon["unknown"] = "󰋗"; color["unknown"] = "\033[38;2;108;112;134m"
+      rank["waiting"] = 1; icon["waiting"] = "󰂞"; color["waiting"] = "\033[38;2;228;104;118m"
+      rank["done"]    = 2; icon["done"]    = "󰗠"; color["done"]    = "\033[38;2;152;187;108m"
+      rank["working"] = 3; icon["working"] = "󰒓"; color["working"] = "\033[38;2;230;195;132m"
+      rank["unknown"] = 4; icon["unknown"] = "󰋗"; color["unknown"] = "\033[38;2;114;113;105m"
     }
     # First input: process table.
     NR == FNR { comm[$1] = $3; if ($2 != $1) kids[$2] = kids[$2] " " $1; next }
