@@ -24,12 +24,12 @@ esac
 
 TAB=$'\t'
 
-# pane_id, pane_pid, session:window.pane, path, status (tab separated)
+# pane_id, pane_pid, session:window.pane, path, status, sandbox mark (tab separated)
 list_panes() {
   if [[ -n "${CLAUDE_PICKER_PANES_FILE:-}" ]]; then
     cat "$CLAUDE_PICKER_PANES_FILE"
   else
-    tmux list-panes -a -F "#{pane_id}${TAB}#{pane_pid}${TAB}#{session_name}:#{window_index}.#{pane_index}${TAB}#{pane_current_path}${TAB}#{@claude_status}"
+    tmux list-panes -a -F "#{pane_id}${TAB}#{pane_pid}${TAB}#{session_name}:#{window_index}.#{pane_index}${TAB}#{pane_current_path}${TAB}#{@claude_status}${TAB}#{@claude_sandbox}"
   fi
 }
 
@@ -55,8 +55,9 @@ collect() {
     }
     # First input: process table.
     NR == FNR { comm[$1] = $3; if ($2 != $1) kids[$2] = kids[$2] " " $1; next }
-    # Second input: panes.
-    has_claude($2) {
+    # Second input: panes. claude-sandbox marks its pane, as its claude runs
+    # in the Docker VM and is not in the process table.
+    $6 != "" || has_claude($2) {
       status = ($5 in rank) ? $5 : "unknown"
       path = $4
       if (path == home) path = "~"

@@ -7,3 +7,4 @@ font-family = JetBrains Mono
 #macos-non-native-fullscreen = visible-menu
 # background-opacity = 0.8   # disabled: transparency breaks dimmed inactive tmux panes
 desktop-notifications = true
+copy-on-select = both
